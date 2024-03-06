@@ -5,7 +5,12 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'mvn clean install'
-                echo 'uild stage successful'
+                echo 'Build stage successful'
+            }
+            post {
+                failure {
+                    echo 'Build stage failed'
+                }
             }
         }
         
@@ -13,10 +18,10 @@ pipeline {
             steps {
                 sh 'mvn test'
                 echo 'Test stage successful'
-                post {
-                    always {
-                        junit 'target/surefire-reports/*.xml'
-                    }
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
                 }
             }
         }
@@ -25,6 +30,11 @@ pipeline {
             steps {
                 sh 'mvn deploy'
                 echo 'Deployment successful'
+            }
+            post {
+                failure {
+                    echo 'Deployment stage failed'
+                }
             }
         }
     }
