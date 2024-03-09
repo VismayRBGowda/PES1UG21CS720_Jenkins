@@ -15,7 +15,7 @@ userRemoteConfigs: [[url:
 stage('Build') {
 steps {
 script {
-sh 'g++ Jenkins_lab-main/main/hello.cpp -o output'
+sh 'g++ main/hello.cpp -o output'
 }
 }
 }
