@@ -7,7 +7,7 @@ script {
 checkout([$class: 'GitSCM',
 branches: [[name: 'main']],
 userRemoteConfigs: [[url:
-'https://github.com/VismayRBGowda/PES1UG21CS720_Jenkins']],
+'https://github.com/VismayRBGowda/PES1UG21CS720_Jenkins.git']],
 ])
 }
 }
