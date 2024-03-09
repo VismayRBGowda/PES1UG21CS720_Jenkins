@@ -1,44 +1,42 @@
 pipeline {
-    agent any
-    
-    stages {
-        stage('Clone repository') {
-            steps {
-                // Cloning the repository using Git
-                git branch: 'main',
-                url: 'https://github.com/VismayRBGowda/PES1UG21CS720_Jenkins.git'
-            }
-        }
-        
-        stage('Build') {
-            steps {
-                // Compiling the C++ file using g++
-                sh 'g++ main/hello.cpp -o main/hello_exec'
-            }
-        }
-        
-        stage('Test') {
-            steps {
-                // Running the compiled C++ program
-                sh './main/hello_exec'
-            }
-        }
-    }
-    
-    post {
-        always {
-            // Post-action to execute regardless of the pipeline result
-            echo 'Pipeline execution completed.'
-        }
-        
-        success {
-            // Post-action to execute if the pipeline is successful
-            echo 'Pipeline succeeded.'
-        }
-        
-        failure {
-            // Post-action to execute if the pipeline fails
-            echo 'Pipeline failed.'
-        }
-    }
+agent any
+stages {
+stage('Clone repository') {
+steps {
+script {
+checkout([$class: 'GitSCM',
+branches: [[name: 'main']],
+userRemoteConfigs: [[url:
+'https://github.com/VismayRBGowda/PES1UG21CS720_Jenkins']],
+])
+}
+}
+}
+stage('Build') {
+steps {
+script {
+sh 'g++ Jenkins_lab-main/main/hello.cpp -o output'
+}
+}
+}
+stage('Test') {
+steps {
+script {
+sh './output'
+}
+}
+}
+stage('Deploy') {
+steps {
+script {
+echo 'Deployment step'
+}
+}
+}
+}
+post {
+failure {
+echo 'Pipeline failed'
+}
+}
 }
